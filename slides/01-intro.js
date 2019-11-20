@@ -44,7 +44,7 @@ console.log(exercise4([9, 9, 9, 4]))
 // Exercise 4 using ternary operator
 
 function exercise4_2(list) {
-  (list.length == 0) ? 0 : ((list[0] + 1) + exercise4_2(list.slice(1)))
+  return (list.length == 0) ? 0 : ((list[0] + 1) + exercise4_2(list.slice(1)))
 }
 
 console.log(exercise4_2([1, 3, 5, 6, 7]))
