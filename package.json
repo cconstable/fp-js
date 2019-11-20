@@ -1,0 +1,18 @@
+{
+  "name": "fp-talk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "bin/compile",
+    "pdf": "`npm bin`/decktape slides/01-intro.html slides/01-intro.pdf",
+    "watch": "watch 'npm run compile' ./slides"
+  },
+  "author": "chris.m.constable@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "decktape": "^2.10.0",
+    "pug": "^2.0.4",
+    "watch": "^1.0.2"
+  }
+}

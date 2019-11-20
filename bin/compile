@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+const pug = require('pug')
+const fs = require('fs')
+
+var md = fs.readFileSync('slides/01-intro.md')
+var html = pug.renderFile('template.pug', {markdown: md})
+fs.writeFileSync("slides/01-intro.html", html)
