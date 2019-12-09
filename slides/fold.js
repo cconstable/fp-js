@@ -44,7 +44,7 @@ console.log(
 // ---------------------------------------------------------------
 // Challenge 1
 //
-// The universality of fold: Using only `reduce` implementn `map` 
+// The universality of fold: Using only `reduce` implement `map` 
 // and `filter`.
 console.log("\n---------------------------------------------------------------")
 console.log("-- Challenge 1")
