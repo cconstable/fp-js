@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "bin/compile",
-    "pdf": "`npm bin`/decktape slides/01-intro.html slides/01-intro.pdf",
+    "pdf": "`npm bin`/decktape slides/fold.md.html slides/fold.pdf",
     "watch": "watch 'npm run compile' ./slides"
   },
   "author": "chris.m.constable@gmail.com",

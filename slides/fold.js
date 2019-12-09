@@ -90,23 +90,8 @@ console.log(
 // The universality of fold: Using only `reduce` implementn `map` 
 // and `filter`.
 console.log("\n---------------------------------------------------------------")
-console.log("-- Challenge 1")
+console.log("-- Challenge 2")
 console.log("---------------------------------------------------------------")
-
-// ---------------------------------------------------------------
-// Problems with Javascript's reduceRight
-
-// Javascript's build-in foldr (reduceRight) incorrectly (IMO) swaps the
-// parameters of f in the implementation causing surprising results.
-// 
-// Instead of:
-//     return f(list[0], foldr(f, initial, list.slice(1)))
-//
-// the implementation seems to be written as:
-//      return f(foldr(f, initial, list.slice(1)), list[0])
-//
-// These are equivalent for semigroups (things that have an associative
-// binary operator) but produce different results for everything else.
 
 // Compare the output of this "foldr" to the foldr written above
 console.log(
@@ -128,9 +113,19 @@ console.log("js obeys 3rd duality theorem: " + jsObeysTheorem)
 console.log("custom foldr obeys 3rd duality theorem: " + weObeyTheorem)
 
 // ---------------------------------------------------------------
-// Exercise 1
+// Challenge 3
+//
+// The universality of foldr: Using only `foldr` implementn `foldl` 
+console.log("\n---------------------------------------------------------------")
+console.log("-- Challenge 3")
+console.log("---------------------------------------------------------------")
 
 // foldl using foldr
+//
+// This is a bit of a mind-bender as we don't use foldr as you'd
+// expect: instead of passing in the initial element we pass in 
+// the identity function. If you put the effort in to work through 
+// the steps you will see that this does indeed equate to foldl.
 function foldl2(f, initial, list) {
     return foldr(
         (y, g) => x => f(g(x), y),
@@ -144,5 +139,5 @@ console.log(
 )
 
 console.log(
-    "foldl: " + foldl2(f, initial, list)
+    "foldl2: " + foldl2(f, initial, list)
 )
