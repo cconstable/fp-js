@@ -87,8 +87,8 @@ console.log(
 // ---------------------------------------------------------------
 // Challenge 2
 //
-// The universality of fold: Using only `reduce` implementn `map` 
-// and `filter`.
+// Show that Javascript's `reduceRight` (aka `foldr`) violates the 
+// *3rd duality theorem* of fold.
 console.log("\n---------------------------------------------------------------")
 console.log("-- Challenge 2")
 console.log("---------------------------------------------------------------")
