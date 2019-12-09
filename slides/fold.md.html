@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="en"><head><title></title><style>@import url('https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro&display=swap');
+html {
+  font-size: 10px;
+}
+body { font-family: 'Open Sans'; }
+h1, h2, h3 {
+  font-family: 'Open Sans';
+  font-weight: normal;
+}
+.remark-slide-content {
+  color: #FFF;
+  background-color: #171717;
+  font-size: 2.7rem;
+}
+.remark-code-span-highlighted {
+  background-color: #495901;
+}
+.remark-code-line-highlighted {
+  background-color: #495901;
+}
+.remark-code, .remark-inline-code { 
+  font-size: 2.7rem;
+  font-family: 'Source Code Pro'; 
+  color: #F58A58;
+}
+.important-slide { color: #FFE082; }
+.important-text { color: #F78C6A; }
+</style></head><body><textarea id="source">class: center, middle
+
+&lt;div style=&quot;color:#F78C6A&quot;&gt;
+# Functional Programming
+The universality of fold
+&lt;/div&gt;
+Chris Constable
+
+---
+
+# Review
+
+- higher-order functions
+- `map`, `filter`, and `reduce`
+- recursive functions can replace loops
+
+---
+
+# Review
+
+```js
+[1, 2, 3].reduce(0, (acc, x) =&gt; acc + x)
+
+(((0 + 1) + 2) + 3)
+
+6
+```
+
+---
+
+# Review
+
+```js
+`[1, 2, 3]`.reduce(0, (acc, x) =&gt; acc + x)
+
+(((0 + 1) + 2) + 3)
+
+6
+```
+
+---
+
+# Review
+
+```js
+[1, 2, 3].reduce(`0`, (acc, x) =&gt; acc + x)
+
+(((0 + 1) + 2) + 3)
+
+6
+```
+
+---
+
+# Review
+
+```js
+[1, 2, 3].reduce(0, `(acc, x) =&gt; acc + x`)
+
+(((0 + 1) + 2) + 3)
+
+6
+```
+
+---
+
+# Review
+
+```js
+[1, 2, 3].reduce(`0`, (acc, x) =&gt; acc + x)
+
+((`(0 + 1)` + 2) + 3)
+
+6
+```
+
+---
+
+# Review
+
+```js
+[1, 2, 3].reduce(0, (acc, x) =&gt; acc + x)
+
+(((0 + 1) + 2) + 3)
+
+`6`
+```
+
+---
+
+class: center, middle, important-slide
+
+## *3 challenges*
+
+---
+
+&lt;div style=&quot;color:#6C7BD0&quot;&gt;
+# &gt; Challenge 1
+&lt;/div&gt;
+*The universality of fold:* Using only `reduce`, implement `map` and `filter`.
+
+--
+
+If that seems a bit too difficult, try implementing `map` or `filter` on your own without `reduce`.
+
+--
+
+If that still seems a bit too much pair up with someone!
+
+---
+
+---
+
+```js
+function map(f, list) {
+    return list.reduce(
+        (acc, x) =&gt; acc.concat([f(x)]),
+        []
+    )
+}
+
+function filter(pred, list) {
+    return list.reduce(
+        (acc, x) =&gt; pred(x) ? acc.concat([x]) : acc,
+        []
+    )
+}
+```
+
+---
+
+When we use reduce it goes from left-to-right:
+
+```
+------------&gt;
+(((i a) b) c)
+```
+
+--
+
+What if we want to reduce right-to-left?
+
+```
+&lt;------------
+(a (b (c i)))
+```
+
+--
+
+Who cares?
+
+---
+
+foldl
+
+```
+------------&gt;
+(((i a) b) c)
+```
+
+foldr
+
+```
+&lt;------------
+(a (b (c i)))
+```
+
+---
+
+foldl (`reduce` in Javascript)
+
+```
+------------&gt;
+(((i a) b) c)
+```
+
+foldr
+
+```
+&lt;------------
+(a (b (c i)))
+```
+
+---
+
+```js
+// Haskell
+foldl (++) &quot;a&quot; [&quot;b&quot;, &quot;c&quot;]                      // &quot;abc&quot;
+
+// Scala
+Array(&quot;b&quot;, &quot;c&quot;).foldLeft(&quot;a&quot;)(_ + _)           // &quot;abc&quot;
+
+// JS
+[&quot;b&quot;, &quot;c&quot;].reduce((acc, x) =&gt; acc + x, &quot;a&quot;)    // &quot;abc&quot;
+```
+
+---
+
+```js
+// Haskell
+foldr (++) &quot;a&quot; [&quot;b&quot;, &quot;c&quot;]                         // &quot;bca&quot;
+
+// Scala
+Array(&quot;b&quot;, &quot;c&quot;).foldRight(&quot;a&quot;)(_ + _)             // &quot;bca&quot;
+```
+
+---
+
+```js
+// Haskell
+foldr (++) &quot;a&quot; [&quot;b&quot;, &quot;c&quot;]                         // &quot;bca&quot;
+
+// Scala
+Array(&quot;b&quot;, &quot;c&quot;).foldRight(&quot;a&quot;)(_ + _)             // &quot;bca&quot;
+
+// JS
+[&quot;b&quot;, &quot;c&quot;].reduceRight((acc, x) =&gt; acc + x, &quot;a&quot;)  // &quot;acb&quot;
+```
+
+---
+
+
+```js
+ghci&gt; foldr (-) 52 [12, 30, 21]
+-49
+
+node&gt; [12, 30, 21].reduceRight((acc, x) =&gt; acc - x, 52)
+-11
+```
+---
+
+&lt;div style=&quot;color:#6C7BD0&quot;&gt;
+# &gt; Challenge 2
+&lt;/div&gt;
+Show that Javascript's `reduceRight` (aka `foldr`) violates the *3rd duality theorem* of fold which states that:
+
+&lt;br /&gt;
+$$
+\mathit{foldr} \ (\oplus) \ a \ \mathit{xs} = \mathit{foldl} \; (\widetilde{\oplus}) \; a \; \mathit{xs}^{reversed}
+$$
+
+$$
+\text{where} \quad a \oplus b = b \: \widetilde{\oplus} \: a
+$$
+
+---
+
+---
+
+```js
+const initial   = 52
+const list      = [12, 30, 21]
+const listR     = list.reverse()
+
+const f = (acc, x) =&gt; acc - x
+const g = (x, acc) =&gt; acc - x
+
+`list`.reduce(f, initial) == `listR`.reduceRight(g, initial)
+
+// false :(
+```
+
+---
+
+&lt;div style=&quot;color:#6C7BD0&quot;&gt;
+# &gt; Challenge 3
+&lt;/div&gt;
+*The universality of foldr:* Write a version of `reduceRight` (aka `foldr`) that obeys the *3rd duality theorem*. Using only the `foldr` function, implement `foldl`.
+
+--
+
+I'm not going to discuss the answer to this because it's pretty mind-bending. Graham Hutton published a paper on it called &quot;A tutorial on the universality and expressiveness of fold&quot;. I've written a `Javascript solution` in the source repo for these slides.
+
+---
+
+## Summary
+
+- folds encapsulates recursion
+- using folds alone it is possible to implement an astounding number of useful functions
+- `foldr` can be used to implement `foldl`
+- don't write cryptic folds that nobody will understand in a week
+- check out the `source` for the solution to challenge 3
+</textarea><script src="../vendor/remark-latest.min.js"></script><script src="../node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>remark.macros.scale = function (percentage) {
+  var url = this;
+  return '<img src="' + url + '" style="width: ' + percentage + '" />';
+};
+var slideshow = remark.create({
+    ratio: '16:9',
+    slideNumberFormat: '%current%',
+    highlightStyle: 'atom-one-dark',
+    highlightLines: true,
+    highlightSpans: true
+});
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+});
+MathJax.Hub.Queue(function() {
+    $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+        return(elem.SourceElement());
+    }).parent().addClass('has-jax');
+});
+MathJax.Hub.Configured();</script></body></html>

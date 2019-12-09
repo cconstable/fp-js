@@ -2,6 +2,7 @@ class: center, middle
 
 <div style="color:#F78C6A">
 # Functional Programming
+Part 1: Introduction
 </div>
 Chris Constable
 

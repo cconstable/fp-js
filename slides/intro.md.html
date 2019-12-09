@@ -21,6 +21,7 @@ h1, h2, h3 {
 .remark-code, .remark-inline-code { 
   font-size: 2.7rem;
   font-family: 'Source Code Pro'; 
+  color: #F58A58;
 }
 .important-slide { color: #FFE082; }
 .important-text { color: #F78C6A; }
@@ -28,6 +29,7 @@ h1, h2, h3 {
 
 &lt;div style=&quot;color:#F78C6A&quot;&gt;
 # Functional Programming
+Part 1: Introduction
 &lt;/div&gt;
 Chris Constable
 
@@ -913,7 +915,7 @@ We barely scratched the surface here! If you'd like to dig deeper come chat!
 class: center, middle, important-slide
 
 ## Thanks! Questions?
-</textarea><script src="../vendor/remark-latest.min.js"></script><script>remark.macros.scale = function (percentage) {
+</textarea><script src="../vendor/remark-latest.min.js"></script><script src="../node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>remark.macros.scale = function (percentage) {
   var url = this;
   return '<img src="' + url + '" style="width: ' + percentage + '" />';
 };
@@ -923,4 +925,16 @@ var slideshow = remark.create({
     highlightStyle: 'atom-one-dark',
     highlightLines: true,
     highlightSpans: true
-});</script></body></html>
+});
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+});
+MathJax.Hub.Queue(function() {
+    $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+        return(elem.SourceElement());
+    }).parent().addClass('has-jax');
+});
+MathJax.Hub.Configured();</script></body></html>

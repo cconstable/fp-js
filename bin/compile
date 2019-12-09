@@ -1,8 +1,17 @@
 #!/usr/bin/env node
 
-const pug = require('pug')
-const fs = require('fs')
+const pug   = require('pug')
+const fs    = require('fs')
+const path  = require('path')
 
-var md = fs.readFileSync('slides/01-intro.md')
-var html = pug.renderFile('template.pug', {markdown: md})
-fs.writeFileSync("slides/01-intro.html", html)
+var files = fs.readdirSync('./slides/')
+    .map(file => "./slides/" + file)
+    .filter(file => {
+        return (fs.statSync(file).isDirectory() == false) && (path.extname(file) == ".md")
+    })
+
+files.forEach(file => {
+    var md = fs.readFileSync(file)
+    var html = pug.renderFile('./template.pug', {markdown: md})
+    fs.writeFileSync(file + ".html", html)
+})

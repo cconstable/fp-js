@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="en"><head><title></title><style>@import url('https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro&display=swap');
+html {
+  font-size: 10px;
+}
+body { font-family: 'Open Sans'; }
+h1, h2, h3 {
+  font-family: 'Open Sans';
+  font-weight: normal;
+}
+.remark-slide-content {
+  color: #FFF;
+  background-color: #171717;
+  font-size: 2.7rem;
+}
+.remark-code-span-highlighted {
+  background-color: #495901;
+}
+.remark-code-line-highlighted {
+  background-color: #495901;
+}
+.remark-code, .remark-inline-code { 
+  font-size: 2.7rem;
+  font-family: 'Source Code Pro'; 
+  color: #F58A58;
+}
+.important-slide { color: #FFE082; }
+.important-text { color: #F78C6A; }
+</style></head><body><textarea id="source">class: center, middle
+
+&lt;div style=&quot;color:#F78C6A&quot;&gt;
+# Functional Programming
+Level 2: 
+&lt;/div&gt;
+Chris Constable
+
+---
+
+# Recap
+
+- higher-order functions
+- `map` and `reduce`
+- recursive functions can replace loops
+- functions can replace *everything* (even numbers)
+- `monoids` are things that we can `reduce`
+
+---
+
+&lt;div style=&quot;color:#6C7BD0&quot;&gt;
+# &gt; Exercise 1
+&lt;/div&gt;
+- Make sure the person sitting next to you knows what `map` and `reduce` are and how recursive functions can replace loops
+- If you think this is boring implement `foldl` in terms of `foldr` ;)
+
+---
+
+When we use reduce it goes from left-to-right:
+
+```
+------------&gt;
+(((a b) c) d)
+```
+
+--
+
+What if we want to reduce right-to-left?
+
+```
+&lt;------------
+(a (b (c d)))
+```
+
+--
+
+Who cares?
+
+---
+
+foldl
+
+```
+------------&gt;
+(((a b) c) d)
+```
+
+foldr
+
+```
+&lt;------------
+(a (b (c d)))
+```
+
+---
+
+foldl (`reduce` in Javascript)
+
+```
+------------&gt;
+(((a b) c) d)
+```
+
+foldr
+
+```
+&lt;------------
+(a (b (c d)))
+```
+
+---
+
+```js
+// Haskell
+foldl (++) &quot;a&quot; [&quot;b&quot;, &quot;c&quot;]                      // &quot;abc&quot;
+
+// Scala
+Array(&quot;b&quot;, &quot;c&quot;).foldLeft(&quot;a&quot;)(_ + _)           // &quot;abc&quot;
+
+// JS
+[&quot;b&quot;, &quot;c&quot;].reduce((acc, x) =&gt; acc + x, &quot;a&quot;)    // &quot;abc&quot;
+```
+
+---
+
+```js
+// Haskell
+foldr (++) &quot;a&quot; [&quot;b&quot;, &quot;c&quot;]                         // &quot;bca&quot;
+
+// Scala
+Array(&quot;b&quot;, &quot;c&quot;).foldRight(&quot;a&quot;)(_ + _)             // &quot;bca&quot;
+```
+
+---
+
+```js
+// Haskell
+foldr (++) &quot;a&quot; [&quot;b&quot;, &quot;c&quot;]                         // &quot;bca&quot;
+
+// Scala
+Array(&quot;b&quot;, &quot;c&quot;).foldRight(&quot;a&quot;)(_ + _)             // &quot;bca&quot;
+
+// JS
+[&quot;b&quot;, &quot;c&quot;].reduceRight((acc, x) =&gt; acc + x, &quot;a&quot;)  // &quot;acb&quot;
+```
+
+---
+
+
+```js
+ghci&gt; foldr (\acc x -&gt; acc - x) 52 [12, 30, 21]
+-49
+
+node&gt; [12, 30, 21].reduceRight((acc, x) =&gt; acc - x, 52)
+-11
+```
+
+---
+
+class: center, middle, important-slide
+
+## *don't use reduceRight in javascript*
+
+---
+
+Currying
+
+- Any N-arity function can be converted to N single-argument functions
+- Currying can help us reuse functions in different contexts
+- Currying can let us &quot;pre-fill&quot; some values
+- Currying can help us line up types properly
+
+---
+
+- We talked about `map` and `reduce`
+- We also learned that `monoids` are things that we can `reduce`
+- What about `map`? Do mappable things have a fancy name?
+
+---
+
+Functor
+
+---
+
+- endofunctor
+- bifunctor (e.g. the `Either` type maps two things)
+- covariance and contravariance
+
+---
+
+A free-standing map implementation of map:
+
+```js
+```
+
+---
+
+Lifting
+
+- Lifting allows you take a value or function and &quot;wrap&quot; it in a context or structure.
+- Examples
+- Lift2
+- Show the standalone map we made earlier. Look at the signature. Show that it matches `lift`! Map is a form of lifting!
+</textarea><script src="../vendor/remark-latest.min.js"></script><script src="../node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>remark.macros.scale = function (percentage) {
+  var url = this;
+  return '<img src="' + url + '" style="width: ' + percentage + '" />';
+};
+var slideshow = remark.create({
+    ratio: '16:9',
+    slideNumberFormat: '%current%',
+    highlightStyle: 'atom-one-dark',
+    highlightLines: true,
+    highlightSpans: true
+});
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+});
+MathJax.Hub.Queue(function() {
+    $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+        return(elem.SourceElement());
+    }).parent().addClass('has-jax');
+});
+MathJax.Hub.Configured();</script></body></html>

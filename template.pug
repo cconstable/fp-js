@@ -26,6 +26,7 @@ html(lang="en")
       .remark-code, .remark-inline-code { 
         font-size: 2.7rem;
         font-family: 'Source Code Pro'; 
+        color: #F58A58;
       }
       .important-slide { color: #FFE082; }
       .important-text { color: #F78C6A; }
@@ -34,6 +35,8 @@ html(lang="en")
     textarea#source
       |#{markdown}
     script(src='../vendor/remark-latest.min.js')
+    script(src='../node_modules/mathjax/MathJax.js?config=TeX-MML-AM_CHTML')
+
     script.
       remark.macros.scale = function (percentage) {
         var url = this;
@@ -46,3 +49,16 @@ html(lang="en")
           highlightLines: true,
           highlightSpans: true
       });
+      MathJax.Hub.Config({
+          tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+      MathJax.Hub.Queue(function() {
+          $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+              return(elem.SourceElement());
+          }).parent().addClass('has-jax');
+      });
+      MathJax.Hub.Configured();
+      
