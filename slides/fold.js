@@ -21,9 +21,9 @@ function foldr(f, initial, list) {
     }
 }
 
-const list = [12, 30, 21]
-const initial = 52
-const f = (acc, x) => acc - x
+var list = [12, 30, 21]
+var initial = 52
+var f = (acc, x) => acc - x
 
 console.log("\n---------------------------------------------------------------")
 console.log("-- foldl and foldr")
@@ -128,16 +128,60 @@ console.log("---------------------------------------------------------------")
 // the steps you will see that this does indeed equate to foldl.
 function foldl2(f, initial, list) {
     return foldr(
-        (y, g) => x => f(g(x), y),
+        (x, accf) => acc => f(accf(acc), x),
         (x => x),
-        list
+        list.reverse()
     )(initial)
 }
 
+// Subtracting
+
+subtract = (acc, x) => acc - x
+
 console.log(
-    "reduce: " + list.reduce(f, initial)
+    JSON.stringify(list) + ".reduce(subtract, " + initial + ")\t == " + list.reduce(subtract, initial)
 )
 
 console.log(
-    "foldl2: " + foldl2(f, initial, list)
+    "foldl(subtract, " + initial + ", " + JSON.stringify(list) + ")\t == " + foldl(subtract, initial, list)
+)
+
+console.log(
+    "foldl2(subtract, " + initial + ", " + JSON.stringify(list) + ") == " + foldl2(subtract, initial, list)
+)
+
+// Adding
+
+add = (acc, x) => acc + x
+
+console.log()
+console.log(
+    JSON.stringify(list) + ".reduce(add, " + initial + ")\t == " + list.reduce(add, initial)
+)
+
+console.log(
+    "foldl(add, " + initial + ", " + JSON.stringify(list) + ")\t == " + foldl(add, initial, list)
+)
+
+console.log(
+    "foldl2(add, " + initial + ", " + JSON.stringify(list) + ")\t == " + foldl2(add, initial, list)
+)
+
+// String concat
+
+list = ["1", "2", "3"]
+initial = ""
+concat = (acc, x) => acc + x
+
+console.log()
+console.log(
+    JSON.stringify(list) + ".reduce(concat, \"" + initial + "\")\t == " + list.reduce(concat, initial)
+)
+
+console.log(
+    "foldl(concat, \"" + initial + "\", " + JSON.stringify(list) + ")\t == " + foldl(concat, initial, list)
+)
+
+console.log(
+    "foldl2(concat, \"" + initial + "\", " + JSON.stringify(list) + ")\t == " + foldl2(concat, initial, list)
 )
