@@ -115,7 +115,7 @@ console.log("custom foldr obeys 3rd duality theorem: " + weObeyTheorem)
 // ---------------------------------------------------------------
 // Challenge 3
 //
-// The universality of foldr: Using only `foldr` implementn `foldl` 
+// The universality of foldr: Using only `foldr` implement `foldl` 
 console.log("\n---------------------------------------------------------------")
 console.log("-- Challenge 3")
 console.log("---------------------------------------------------------------")
